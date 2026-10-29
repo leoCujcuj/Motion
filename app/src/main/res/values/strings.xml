@@ -11,6 +11,10 @@
     <string name="content_desc_settings">Ajustes</string>
 
     <string name="settings_title">Apariencia</string>
+    <string name="settings_theme_label">Aspecto</string>
+    <string name="theme_system">Sistema</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Oscuro</string>
     <string name="settings_preview_label">Vista previa</string>
     <string name="settings_shape_label">Forma</string>
     <string name="settings_size_label">Tamaño</string>

@@ -8,11 +8,13 @@ data class ColorPreset(
 data class MotionSettings(
     val colorArgb: Int = DEFAULT_COLOR_ARGB,
     val sizeDp: Float = DEFAULT_SIZE_DP,
-    val shape: CueShape = CueShape.CIRCLE
+    val shape: CueShape = CueShape.CIRCLE,
+    val themeMode: ThemeMode = ThemeMode.SYSTEM
 ) {
     fun validated(): MotionSettings = copy(
         colorArgb = colorArgb or OPAQUE_ALPHA_MASK,
-        sizeDp = sizeDp.coerceIn(MIN_SIZE_DP, MAX_SIZE_DP)
+        sizeDp = sizeDp.coerceIn(MIN_SIZE_DP, MAX_SIZE_DP),
+        themeMode = themeMode
     )
 
     companion object {

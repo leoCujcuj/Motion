@@ -37,9 +37,9 @@ class MainActivity : ComponentActivity() {
         handleIncomingIntent(intent)
 
         setContent {
-            MotionTheme {
-                val uiState by viewModel.uiState.collectAsState()
+            val uiState by viewModel.uiState.collectAsState()
 
+            MotionTheme(themeMode = uiState.settings.themeMode) {
                 MotionMainScreen(
                     uiState = uiState,
                     onToggleStartPause = {
@@ -51,6 +51,7 @@ class MainActivity : ComponentActivity() {
                     onShapeSelected = viewModel::updateShape,
                     onSizeChanged = viewModel::updateSizeDp,
                     onColorSelected = viewModel::updateColor,
+                    onThemeModeSelected = viewModel::updateThemeMode,
                     onConfirmOverlayPermission = {
                         openOverlayPermissionSettings()
                     },

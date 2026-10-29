@@ -67,8 +67,10 @@ import androidx.compose.ui.unit.sp
 import com.example.motion.R
 import com.example.motion.model.CueShape
 import com.example.motion.model.MotionSettings
+import com.example.motion.model.ThemeMode
 import com.example.motion.tile.MotionTileService
 import com.example.motion.ui.icons.MotionIcons
+import com.example.motion.ui.theme.LocalIsDarkTheme
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -78,10 +80,11 @@ fun MotionSettingsSheet(
     onShapeSelected: (CueShape) -> Unit,
     onSizeChanged: (Float) -> Unit,
     onColorSelected: (Int) -> Unit,
+    onThemeModeSelected: (ThemeMode) -> Unit,
     onDismiss: () -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    val isDark = isSystemInDarkTheme()
+    val isDark = LocalIsDarkTheme.current
     val context = LocalContext.current
     var tileFeedbackMessage by remember { mutableStateOf<String?>(null) }
 
@@ -137,6 +140,22 @@ fun MotionSettingsSheet(
                 settings = settings,
                 cardColor = cardColor
             )
+
+            // Selector de Aspecto (Modo Claro / Oscuro / Sistema)
+            SettingsSectionCard(cardColor = cardColor) {
+                Text(
+                    text = stringResource(R.string.settings_theme_label),
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                AppleSegmentedThemePicker(
+                    selectedTheme = settings.themeMode,
+                    onThemeSelected = onThemeModeSelected,
+                    isDark = isDark
+                )
+            }
 
             // Selector segmentado estilo iOS para Forma
             SettingsSectionCard(cardColor = cardColor) {
@@ -350,7 +369,7 @@ private fun LiveCuePreviewCard(
         label = "preview_phase"
     )
 
-    val isDark = isSystemInDarkTheme()
+    val isDark = LocalIsDarkTheme.current
     val cueColor = Color(settings.colorArgb)
     val luminance = 0.299f * cueColor.red + 0.587f * cueColor.green + 0.114f * cueColor.blue
     val haloColor = if (luminance > 0.55f) Color.Black.copy(alpha = 0.22f) else Color.White.copy(alpha = 0.28f)
@@ -472,6 +491,55 @@ private fun AppleSegmentedShapePicker(
             ) {
                 Text(
                     text = stringResource(shape.labelRes),
+                    fontSize = 13.sp,
+                    fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
+                    color = if (selected) {
+                        MaterialTheme.colorScheme.onSurface
+                    } else {
+                        MaterialTheme.colorScheme.onSurfaceVariant
+                    },
+                    maxLines = 1
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun AppleSegmentedThemePicker(
+    selectedTheme: ThemeMode,
+    onThemeSelected: (ThemeMode) -> Unit,
+    isDark: Boolean
+) {
+    val trackColor = if (isDark) Color(0xFF1C1C1E) else Color(0xFFE5E5EA)
+    val activeSegmentColor = if (isDark) Color(0xFF3A3A3C) else Color.White
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(11.dp))
+            .background(trackColor)
+            .padding(3.dp),
+        horizontalArrangement = Arrangement.spacedBy(3.dp)
+    ) {
+        ThemeMode.entries.forEach { mode ->
+            val selected = mode == selectedTheme
+            val bg by animateColorAsState(
+                targetValue = if (selected) activeSegmentColor else Color.Transparent,
+                animationSpec = tween(durationMillis = 180),
+                label = "theme_segment_bg"
+            )
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .weight(1f)
+                    .clip(RoundedCornerShape(9.dp))
+                    .background(bg)
+                    .clickable(role = Role.RadioButton) { onThemeSelected(mode) }
+                    .padding(vertical = 9.dp, horizontal = 4.dp)
+            ) {
+                Text(
+                    text = stringResource(mode.labelRes),
                     fontSize = 13.sp,
                     fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
                     color = if (selected) {

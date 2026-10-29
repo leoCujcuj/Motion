@@ -25,10 +25,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.motion.R
 import com.example.motion.model.CueShape
+import com.example.motion.model.ThemeMode
 import com.example.motion.ui.components.AppleStartPauseButton
 import com.example.motion.ui.components.MotionSettingsSheet
 import com.example.motion.ui.components.OverlayPermissionDialog
 import com.example.motion.ui.icons.MotionIcons
+import com.example.motion.ui.theme.LocalIsDarkTheme
 
 @Composable
 fun MotionMainScreen(
@@ -39,10 +41,11 @@ fun MotionMainScreen(
     onShapeSelected: (CueShape) -> Unit,
     onSizeChanged: (Float) -> Unit,
     onColorSelected: (Int) -> Unit,
+    onThemeModeSelected: (ThemeMode) -> Unit,
     onConfirmOverlayPermission: () -> Unit,
     onDismissOverlayPermission: () -> Unit
 ) {
-    val isDark = isSystemInDarkTheme()
+    val isDark = LocalIsDarkTheme.current
 
     Box(
         modifier = Modifier
@@ -116,6 +119,7 @@ fun MotionMainScreen(
                 onShapeSelected = onShapeSelected,
                 onSizeChanged = onSizeChanged,
                 onColorSelected = onColorSelected,
+                onThemeModeSelected = onThemeModeSelected,
                 onDismiss = onDismissSettings
             )
         }

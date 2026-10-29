@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.motion.data.MotionRepository
 import com.example.motion.model.CueShape
 import com.example.motion.model.MotionSettings
+import com.example.motion.model.ThemeMode
 import com.example.motion.overlay.MotionServiceController
 import com.example.motion.overlay.StartResult
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -135,5 +136,9 @@ class MotionViewModel(application: Application) : AndroidViewModel(application) 
 
     fun updateShape(shape: CueShape) {
         repository.updateShape(shape)
+    }
+
+    fun updateThemeMode(themeMode: ThemeMode) {
+        repository.updateThemeMode(themeMode)
     }
 }

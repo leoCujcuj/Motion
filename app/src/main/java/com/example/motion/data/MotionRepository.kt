@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import com.example.motion.model.CueShape
 import com.example.motion.model.MotionRuntimeState
 import com.example.motion.model.MotionSettings
+import com.example.motion.model.ThemeMode
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -42,6 +43,12 @@ class MotionRepository private constructor(appContext: Context) {
         prefs.edit().putString(KEY_SHAPE, next.shape.storageKey).apply()
     }
 
+    fun updateThemeMode(themeMode: ThemeMode) {
+        val next = _settings.value.copy(themeMode = themeMode).validated()
+        _settings.value = next
+        prefs.edit().putString(KEY_THEME_MODE, next.themeMode.storageKey).apply()
+    }
+
     fun setRunning(isRunning: Boolean) {
         _runtimeState.update { current ->
             current.copy(
@@ -67,10 +74,12 @@ class MotionRepository private constructor(appContext: Context) {
         val rawColor = prefs.getInt(KEY_COLOR_ARGB, MotionSettings.DEFAULT_COLOR_ARGB)
         val rawSize = prefs.getFloat(KEY_SIZE_DP, MotionSettings.DEFAULT_SIZE_DP)
         val rawShape = prefs.getString(KEY_SHAPE, CueShape.CIRCLE.storageKey)
+        val rawTheme = prefs.getString(KEY_THEME_MODE, ThemeMode.SYSTEM.storageKey)
         return MotionSettings(
             colorArgb = rawColor,
             sizeDp = if (rawSize.isFinite()) rawSize else MotionSettings.DEFAULT_SIZE_DP,
-            shape = CueShape.fromStorageKey(rawShape)
+            shape = CueShape.fromStorageKey(rawShape),
+            themeMode = ThemeMode.fromStorageKey(rawTheme)
         ).validated()
     }
 
@@ -79,6 +88,7 @@ class MotionRepository private constructor(appContext: Context) {
         private const val KEY_COLOR_ARGB = "color_argb"
         private const val KEY_SIZE_DP = "size_dp"
         private const val KEY_SHAPE = "cue_shape"
+        private const val KEY_THEME_MODE = "theme_mode"
 
         @Volatile
         private var instance: MotionRepository? = null

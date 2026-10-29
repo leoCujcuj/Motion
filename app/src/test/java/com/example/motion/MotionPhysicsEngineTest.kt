@@ -2,6 +2,7 @@ package com.example.motion
 
 import com.example.motion.model.CueShape
 import com.example.motion.model.MotionSettings
+import com.example.motion.model.ThemeMode
 import com.example.motion.sensor.MotionPhysicsEngine
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -103,5 +104,8 @@ class MotionPhysicsEngineTest {
         assertEquals(CueShape.SUBTLE_LINE, CueShape.fromStorageKey("subtle_line"))
         assertEquals(CueShape.SQUARE, CueShape.fromStorageKey("square"))
         assertEquals(CueShape.CIRCLE, CueShape.fromStorageKey("unknown"))
+        assertEquals(ThemeMode.SYSTEM, ThemeMode.fromStorageKey("unknown"))
+        assertEquals(ThemeMode.LIGHT, ThemeMode.fromStorageKey("light"))
+        assertEquals(ThemeMode.DARK, ThemeMode.fromStorageKey("dark"))
     }
 }

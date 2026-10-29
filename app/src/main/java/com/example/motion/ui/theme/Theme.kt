@@ -5,7 +5,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
+import com.example.motion.model.ThemeMode
+
+val LocalIsDarkTheme = compositionLocalOf { false }
 
 private val AppleDarkScheme = darkColorScheme(
     primary = AppleBlueDark,
@@ -37,14 +42,21 @@ private val AppleLightScheme = lightColorScheme(
 
 @Composable
 fun MotionTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    themeMode: ThemeMode = ThemeMode.SYSTEM,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = if (darkTheme) AppleDarkScheme else AppleLightScheme
+    val isDark = when (themeMode) {
+        ThemeMode.SYSTEM -> isSystemInDarkTheme()
+        ThemeMode.LIGHT -> false
+        ThemeMode.DARK -> true
+    }
+    val colorScheme = if (isDark) AppleDarkScheme else AppleLightScheme
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+    CompositionLocalProvider(LocalIsDarkTheme provides isDark) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
 }

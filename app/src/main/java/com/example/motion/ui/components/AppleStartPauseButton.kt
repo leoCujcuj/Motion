@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.motion.R
 import com.example.motion.ui.icons.MotionIcons
+import com.example.motion.ui.theme.LocalIsDarkTheme
 
 @Composable
 fun AppleStartPauseButton(
@@ -56,7 +57,7 @@ fun AppleStartPauseButton(
     onToggle: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val isDark = isSystemInDarkTheme()
+    val isDark = LocalIsDarkTheme.current
     val haptic = LocalHapticFeedback.current
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
