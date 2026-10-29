@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+
+    <!-- Fondo de contraste sutil redondeado para el splash screen -->
+    <path
+        android:pathData="M48,6C24.8,6 6,24.8 6,48s18.8,42 42,42 42,-18.8 42,-42S71.2,6 48,6z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:centerX="48"
+                android:centerY="42"
+                android:gradientRadius="48"
+                android:type="radial">
+                <item android:color="#1F2937" android:offset="0.0" />
+                <item android:color="#111827" android:offset="0.70" />
+                <item android:color="#0B0F19" android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Halo exterior -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M48,48m-13,0a13,13 0,1 1,26 0a13,13 0,1 1,-26 0"
+        android:strokeWidth="2.2"
+        android:strokeColor="#33007AFF" />
+
+    <!-- Anillo central de estabilización -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M48,48m-7.5,0a7.5,7.5 0,1 1,15 0a7.5,7.5 0,1 1,-15 0"
+        android:strokeWidth="2.0"
+        android:strokeColor="#FF007AFF" />
+
+    <!-- Punto focal central -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M48,48m-2.8,0a2.8,2.8 0,1 1,5.6 0a2.8,2.8 0,1 1,-5.6 0" />
+
+    <!-- Cues periféricos izquierdos -->
+    <path
+        android:fillColor="#B30A84FF"
+        android:pathData="M30,32m-2.6,0a2.6,2.6 0,1 1,5.2 0a2.6,2.6 0,1 1,-5.2 0" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M24,48m-3.6,0a3.6,3.6 0,1 1,7.2 0a3.6,3.6 0,1 1,-7.2 0" />
+    <path
+        android:fillColor="#B30A84FF"
+        android:pathData="M30,64m-2.6,0a2.6,2.6 0,1 1,5.2 0a2.6,2.6 0,1 1,-5.2 0" />
+
+    <!-- Cues periféricos derechos -->
+    <path
+        android:fillColor="#B30A84FF"
+        android:pathData="M66,32m-2.6,0a2.6,2.6 0,1 1,5.2 0a2.6,2.6 0,1 1,-5.2 0" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M72,48m-3.6,0a3.6,3.6 0,1 1,7.2 0a3.6,3.6 0,1 1,-7.2 0" />
+    <path
+        android:fillColor="#B30A84FF"
+        android:pathData="M66,64m-2.6,0a2.6,2.6 0,1 1,5.2 0a2.6,2.6 0,1 1,-5.2 0" />
+
+    <!-- Cues periféricos verticales -->
+    <path
+        android:fillColor="#805AC8FA"
+        android:pathData="M48,22m-2.0,0a2.0,2.0 0,1 1,4.0 0a2.0,2.0 0,1 1,-4.0 0" />
+    <path
+        android:fillColor="#805AC8FA"
+        android:pathData="M48,74m-2.0,0a2.0,2.0 0,1 1,4.0 0a2.0,2.0 0,1 1,-4.0 0" />
+
+</vector>
