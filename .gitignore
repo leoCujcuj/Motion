@@ -1,0 +1,32 @@
+# Android Studio & IntelliJ IDEA
+.idea/
+*.iml
+.gradle/
+.kotlin/
+
+# Archivos de configuración local y credenciales del SDK
+local.properties
+keystore.properties
+signing.properties
+google-services.json
+*.jks
+*.keystore
+*.key
+*.pk8
+*.pem
+*.p12
+
+# Variables de entorno y secretos
+.env
+.env.*
+
+# Salidas de compilación
+build/
+*/build/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
