@@ -17,6 +17,8 @@
     <string name="theme_dark">Oscuro</string>
     <string name="settings_preview_label">Vista previa</string>
     <string name="settings_shape_label">Forma</string>
+    <string name="settings_trail_label">Estela de movimiento</string>
+    <string name="settings_trail_subtitle">Genera un rastro de partículas más translúcidas al desplazarse.</string>
     <string name="settings_size_label">Tamaño</string>
     <string name="settings_color_label">Color</string>
     <string name="settings_custom_color_label">Tono personalizado</string>

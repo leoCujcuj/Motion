@@ -52,6 +52,7 @@ class MainActivity : ComponentActivity() {
                     onSizeChanged = viewModel::updateSizeDp,
                     onColorSelected = viewModel::updateColor,
                     onThemeModeSelected = viewModel::updateThemeMode,
+                    onTrailToggled = viewModel::updateMotionTrail,
                     onConfirmOverlayPermission = {
                         openOverlayPermissionSettings()
                     },

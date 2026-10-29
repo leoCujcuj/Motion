@@ -49,6 +49,12 @@ class MotionRepository private constructor(appContext: Context) {
         prefs.edit().putString(KEY_THEME_MODE, next.themeMode.storageKey).apply()
     }
 
+    fun updateMotionTrail(enabled: Boolean) {
+        val next = _settings.value.copy(showMotionTrail = enabled).validated()
+        _settings.value = next
+        prefs.edit().putBoolean(KEY_SHOW_MOTION_TRAIL, next.showMotionTrail).apply()
+    }
+
     fun setRunning(isRunning: Boolean) {
         _runtimeState.update { current ->
             current.copy(
@@ -75,11 +81,13 @@ class MotionRepository private constructor(appContext: Context) {
         val rawSize = prefs.getFloat(KEY_SIZE_DP, MotionSettings.DEFAULT_SIZE_DP)
         val rawShape = prefs.getString(KEY_SHAPE, CueShape.CIRCLE.storageKey)
         val rawTheme = prefs.getString(KEY_THEME_MODE, ThemeMode.SYSTEM.storageKey)
+        val rawTrail = prefs.getBoolean(KEY_SHOW_MOTION_TRAIL, true)
         return MotionSettings(
             colorArgb = rawColor,
             sizeDp = if (rawSize.isFinite()) rawSize else MotionSettings.DEFAULT_SIZE_DP,
             shape = CueShape.fromStorageKey(rawShape),
-            themeMode = ThemeMode.fromStorageKey(rawTheme)
+            themeMode = ThemeMode.fromStorageKey(rawTheme),
+            showMotionTrail = rawTrail
         ).validated()
     }
 
@@ -89,6 +97,7 @@ class MotionRepository private constructor(appContext: Context) {
         private const val KEY_SIZE_DP = "size_dp"
         private const val KEY_SHAPE = "cue_shape"
         private const val KEY_THEME_MODE = "theme_mode"
+        private const val KEY_SHOW_MOTION_TRAIL = "show_motion_trail"
 
         @Volatile
         private var instance: MotionRepository? = null

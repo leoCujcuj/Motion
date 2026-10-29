@@ -201,6 +201,10 @@ class MotionOverlayView(
         density: Float
     ) {
         if (alphaFactor <= 0.02f) return
+
+        // Dibujar estela de partículas translúcidas si está habilitada
+        drawMotionTrail(canvas, cx, cy, sizePx, alphaFactor, density)
+
         val baseColor = currentSettings.colorArgb
         val baseAlpha = (235f * alphaFactor).toInt().coerceIn(0, 255)
         val haloBaseAlpha = (52f * alphaFactor).toInt().coerceIn(0, 255)
@@ -249,6 +253,68 @@ class MotionOverlayView(
                 linePaint.alpha = (135f * alphaFactor).toInt().coerceIn(0, 200)
 
                 canvas.drawLine(cx - dx, cy - dy, cx + dx, cy + dy, linePaint)
+            }
+        }
+    }
+
+    private fun drawMotionTrail(
+        canvas: Canvas,
+        cx: Float,
+        cy: Float,
+        sizePx: Float,
+        alphaFactor: Float,
+        density: Float
+    ) {
+        if (!currentSettings.showMotionTrail || alphaFactor <= 0.04f) return
+        val vx = kinematics.velocityX
+        val vy = kinematics.velocityY
+        val speed = hypot(vx, vy)
+        val minSpeed = 6f * density
+        if (speed < minSpeed) return
+
+        val speedNormalized = (speed / (280f * density)).coerceIn(0.12f, 1f)
+        val dirX = -vx / speed
+        val dirY = -vy / speed
+        val baseSpacing = sizePx * (0.85f + 1.15f * speedNormalized)
+
+        val trailCount = 3
+        val baseColor = currentSettings.colorArgb
+
+        for (k in 1..trailCount) {
+            val progress = k.toFloat() / (trailCount + 1)
+            // Degradado progresivo de translucidez y tamaño decreciente
+            val trailAlphaFactor = (alphaFactor * (0.48f - progress * 0.32f)).coerceIn(0f, 1f)
+            val trailAlpha = (235f * trailAlphaFactor).toInt().coerceIn(0, 255)
+            if (trailAlpha <= 4) continue
+
+            val trailSizePx = sizePx * (1f - progress * 0.42f)
+            val trailX = cx + dirX * baseSpacing * k
+            val trailY = cy + dirY * baseSpacing * k
+
+            fillPaint.color = baseColor
+            fillPaint.alpha = trailAlpha
+
+            when (currentSettings.shape) {
+                CueShape.CIRCLE -> {
+                    canvas.drawCircle(trailX, trailY, trailSizePx * 0.5f, fillPaint)
+                }
+                CueShape.SQUARE -> {
+                    val half = trailSizePx * 0.5f
+                    val corner = trailSizePx * 0.26f
+                    tempRect.set(trailX - half, trailY - half, trailX + half, trailY + half)
+                    canvas.drawRoundRect(tempRect, corner, corner, fillPaint)
+                }
+                CueShape.SUBTLE_LINE -> {
+                    val halfLen = trailSizePx * 0.70f
+                    val strokeW = (trailSizePx * 0.25f).coerceAtLeast(dpToPx(1.5f, density))
+                    linePaint.color = baseColor
+                    linePaint.strokeWidth = strokeW
+                    linePaint.alpha = trailAlpha
+                    val angle = atan2(vy, vx)
+                    val dx = cos(angle) * halfLen
+                    val dy = sin(angle) * halfLen
+                    canvas.drawLine(trailX - dx, trailY - dy, trailX + dx, trailY + dy, linePaint)
+                }
             }
         }
     }

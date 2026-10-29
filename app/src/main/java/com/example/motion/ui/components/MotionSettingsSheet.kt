@@ -38,6 +38,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -81,6 +83,7 @@ fun MotionSettingsSheet(
     onSizeChanged: (Float) -> Unit,
     onColorSelected: (Int) -> Unit,
     onThemeModeSelected: (ThemeMode) -> Unit,
+    onTrailToggled: (Boolean) -> Unit,
     onDismiss: () -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -171,6 +174,45 @@ fun MotionSettingsSheet(
                     onShapeSelected = onShapeSelected,
                     isDark = isDark
                 )
+            }
+
+            // Interruptor para Estela de Movimiento
+            SettingsSectionCard(cardColor = cardColor) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(end = 12.dp)
+                    ) {
+                        Text(
+                            text = stringResource(R.string.settings_trail_label),
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        Spacer(modifier = Modifier.height(2.dp))
+                        Text(
+                            text = stringResource(R.string.settings_trail_subtitle),
+                            fontSize = 12.sp,
+                            lineHeight = 16.sp,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    Switch(
+                        checked = settings.showMotionTrail,
+                        onCheckedChange = onTrailToggled,
+                        colors = SwitchDefaults.colors(
+                            checkedThumbColor = Color.White,
+                            checkedTrackColor = MaterialTheme.colorScheme.primary,
+                            uncheckedThumbColor = Color.White,
+                            uncheckedTrackColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.20f)
+                        )
+                    )
+                }
             }
 
             // Slider de Tamaño en tiempo real
@@ -404,6 +446,45 @@ private fun LiveCuePreviewCard(
                     val edgeDist = minOf(localX, usableW - localX)
                     val fade = (edgeDist / (spacing * 0.65f)).coerceIn(0.15f, 1f)
                     val cx = padX + localX
+
+                    // Rastro de partículas en la vista previa animada
+                    if (settings.showMotionTrail) {
+                        for (k in 1..2) {
+                            val trailFade = fade * (0.40f - k * 0.15f)
+                            val trailSize = cuePx * (1f - k * 0.35f)
+                            val trailX = cx - (cuePx * 0.90f * k)
+                            if (trailFade > 0.04f) {
+                                when (settings.shape) {
+                                    CueShape.CIRCLE -> {
+                                        drawCircle(
+                                            color = cueColor.copy(alpha = 0.82f * trailFade),
+                                            radius = trailSize * 0.5f,
+                                            center = Offset(trailX, cy)
+                                        )
+                                    }
+                                    CueShape.SQUARE -> {
+                                        drawRoundRect(
+                                            color = cueColor.copy(alpha = 0.82f * trailFade),
+                                            topLeft = Offset(trailX - trailSize * 0.5f, cy - trailSize * 0.5f),
+                                            size = Size(trailSize, trailSize),
+                                            cornerRadius = CornerRadius(trailSize * 0.26f, trailSize * 0.26f)
+                                        )
+                                    }
+                                    CueShape.SUBTLE_LINE -> {
+                                        val halfLen = trailSize * 0.85f
+                                        val strokeW = (trailSize * 0.25f).coerceAtLeast(1.4.dp.toPx())
+                                        drawLine(
+                                            color = cueColor.copy(alpha = 0.45f * trailFade),
+                                            start = Offset(trailX - halfLen, cy),
+                                            end = Offset(trailX + halfLen, cy),
+                                            strokeWidth = strokeW,
+                                            cap = StrokeCap.Round
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
 
                     when (settings.shape) {
                         CueShape.CIRCLE -> {

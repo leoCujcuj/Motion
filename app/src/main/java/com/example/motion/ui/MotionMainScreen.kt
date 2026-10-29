@@ -42,6 +42,7 @@ fun MotionMainScreen(
     onSizeChanged: (Float) -> Unit,
     onColorSelected: (Int) -> Unit,
     onThemeModeSelected: (ThemeMode) -> Unit,
+    onTrailToggled: (Boolean) -> Unit,
     onConfirmOverlayPermission: () -> Unit,
     onDismissOverlayPermission: () -> Unit
 ) {
@@ -120,6 +121,7 @@ fun MotionMainScreen(
                 onSizeChanged = onSizeChanged,
                 onColorSelected = onColorSelected,
                 onThemeModeSelected = onThemeModeSelected,
+                onTrailToggled = onTrailToggled,
                 onDismiss = onDismissSettings
             )
         }

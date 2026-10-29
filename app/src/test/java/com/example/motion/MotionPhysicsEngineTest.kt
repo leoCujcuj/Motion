@@ -107,5 +107,7 @@ class MotionPhysicsEngineTest {
         assertEquals(ThemeMode.SYSTEM, ThemeMode.fromStorageKey("unknown"))
         assertEquals(ThemeMode.LIGHT, ThemeMode.fromStorageKey("light"))
         assertEquals(ThemeMode.DARK, ThemeMode.fromStorageKey("dark"))
+        assertTrue(MotionSettings().showMotionTrail)
+        assertFalse(MotionSettings(showMotionTrail = false).validated().showMotionTrail)
     }
 }

@@ -141,4 +141,8 @@ class MotionViewModel(application: Application) : AndroidViewModel(application) 
     fun updateThemeMode(themeMode: ThemeMode) {
         repository.updateThemeMode(themeMode)
     }
+
+    fun updateMotionTrail(enabled: Boolean) {
+        repository.updateMotionTrail(enabled)
+    }
 }
