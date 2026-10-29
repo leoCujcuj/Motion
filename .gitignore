@@ -21,6 +21,8 @@ google-services.json
 .env.*
 
 # Salidas de compilación
+*.apk
+*.aab
 build/
 */build/
 captures/
