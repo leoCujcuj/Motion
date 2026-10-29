@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Motion</string>
+    <string name="tile_label">Motion</string>
+    <string name="tile_subtitle_active">Activo</string>
+    <string name="tile_subtitle_paused">En pausa</string>
+
+    <string name="action_start">Iniciar</string>
+    <string name="action_pause">Pausar</string>
+    <string name="status_active">Indicadores activos</string>
+    <string name="status_paused">En pausa</string>
+    <string name="content_desc_settings">Ajustes</string>
+
+    <string name="settings_title">Apariencia</string>
+    <string name="settings_preview_label">Vista previa</string>
+    <string name="settings_shape_label">Forma</string>
+    <string name="settings_size_label">Tamaño</string>
+    <string name="settings_color_label">Color</string>
+    <string name="settings_custom_color_label">Tono personalizado</string>
+    <string name="settings_quick_tile_title">Ajustes Rápidos</string>
+    <string name="settings_quick_tile_subtitle">Añade el botón al panel rápido de Samsung. Mantén pulsado el botón rápido para abrir estos ajustes.</string>
+    <string name="settings_quick_tile_add">Añadir botón rápido</string>
+    <string name="settings_quick_tile_added">El botón ya está añadido en Ajustes Rápidos</string>
+
+    <string name="shape_circles">Círculos</string>
+    <string name="shape_squares">Cuadrados</string>
+    <string name="shape_subtle_lines">Líneas tenues</string>
+
+    <string name="permission_overlay_title">Permiso de superposición</string>
+    <string name="permission_overlay_body">Para mostrar los indicadores de movimiento sobre otras aplicaciones sin interrumpir tus toques, activa el permiso «Mostrar encima de otras aplicaciones».</string>
+    <string name="permission_overlay_grant">Abrir permisos</string>
+    <string name="permission_overlay_cancel">Cancelar</string>
+
+    <string name="notification_channel_name">Servicio de indicadores de movimiento</string>
+    <string name="notification_channel_desc">Mantiene activos los indicadores visuales contra el mareo sobre la pantalla.</string>
+    <string name="notification_title">Motion activo</string>
+    <string name="notification_text">Indicadores de movimiento visibles en pantalla</string>
+    <string name="notification_action_pause">Pausar</string>
+
+    <string name="error_no_accelerometer">Este dispositivo no dispone de acelerómetro.</string>
+</resources>
